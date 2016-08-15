@@ -1,0 +1,45 @@
+<?php
+
+namespace stdr\basicPHPClasses\Tests;
+
+use Serializable;
+
+class SerializableSleeper extends Sleeper implements Serializable
+{
+    /** @var int */
+    private $numberOfSerializeCalls = 0;
+
+    /** @var int */
+    private $numberOfUnserializeCalls = 0;
+
+    /** @var string */
+    private $data;
+
+    public function serialize(): string
+    {
+        ++$this->numberOfSerializeCalls;
+
+        return '__serialized__';
+    }
+
+    public function unserialize($serialized)
+    {
+        ++$this->numberOfUnserializeCalls;
+        $this->data = $serialized;
+    }
+
+    public function numberOfSerializeCalls(): int
+    {
+        return $this->numberOfSerializeCalls;
+    }
+
+    public function numberOfUnserializeCalls(): int
+    {
+        return $this->numberOfUnserializeCalls;
+    }
+
+    public function data(): string
+    {
+        return $this->data;
+    }
+}
